@@ -16,6 +16,5 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(p1, Point(0, 0))
 
 
-
 if __name__ == '__main__':
     unittest.main()

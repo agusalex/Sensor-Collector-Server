@@ -15,7 +15,7 @@ class TestStringMethods(unittest.TestCase):
         #        point = Coordinate(-34.5282916, -58.714135)
         ungs = Coordinate(52.2296756, 21.0122287)
         point = Coordinate(52.406374, 16.9251681)
-        self.assertEqual(distance(ungs, point), 278.545589351)
+        self.assertEqual(distance(ungs, point), 278.54558935106695)
         print(distance(ungs, point))
 
 
