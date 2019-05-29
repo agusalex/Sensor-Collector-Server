@@ -19,7 +19,7 @@ class Coordinate:
         self.lat += lat
         self.lon += lon
 
-#sadasdas
+
 def distance(coora, coorb):
     r = 6373.0  # Earth's radius
 

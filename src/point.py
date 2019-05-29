@@ -1,4 +1,4 @@
-from math import sqrt
+from math import hypot
 
 
 class Point:
@@ -21,4 +21,4 @@ class Point:
 
 
 def distance(a, b):
-    return sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+    return hypot(a.x - b.x, a.y - b.y)
