@@ -1,33 +1,49 @@
-from src.point import distance
+from src.point import Point
 
 
 class Circle:
-    def __init__(self, point_init, r_init):
-        self.point = point_init
-        self.r = r_init
+    def __init__(self, x, y, r_init):
+        self.center = Point(x, y)
+        self.radius = r_init
 
     def __repr__(self):
-        return "".join(["Circle(", str(self.point.x), ", ", str(self.point.y), ", ", str(self.r), ")"])
+        return "".join(["Circle(", str(self.center.x), ", ", str(self.center.y), ", ", str(self.radius), ")"])
 
     def __eq__(self, other):
         """Overrides the default implementation"""
         if isinstance(other, Circle):
-            return (self.point.x == other.point.x) & (self.point.y == other.point.y) & (self.r == other.r)
+            return (self.center.x == other.center.x) & (self.center.y == other.center.y) & (self.radius == other.radius)
         return False
 
+    def shift(self, x, y):
+        self.center.x += x
+        self.center.y += y
 
-def intersects(a, b):
-    if distance(a.point, b.point) > (a.r + b.r):
-        return False  # They dont intersect
-    elif distance(a.point, b.point) < abs(a.r - b.r):
-        return False  # One is inside the other
-    elif (distance(a, b) == 0) and (a.r == b.r):
-        return False  # They are exactly the same circle
-    else:
-        return True
+    def shift_radius(self, r):
+        self.radius += r
 
+    def has_inside(self, point: Point):
+        if self.center.distance(point) <= self.radius:
+            return True
+        return False
 
-def getIntersectionPoints(a, b):
-    ret = []
-    return ret
-# if intersects(a, b):
+    def intersects(self, other):
+        if not isinstance(other, Circle):  # if not a circle
+            return False
+        if self.center.distance(other.center) > (self.r + other.r):
+            return False  # They dont intersect
+        elif self.center.distance(other.center) < abs(self.r - other.r):
+            return False  # One is inside the other
+        elif (self.center.distance(other.center) == 0) and (self.r == other.r):
+            return False  # They are exactly the same circle
+        else:  # if distance(a.center,b.center)<=a.r+b.r
+            return True
+
+    def distance_to_intersection(self, other):
+        if not isinstance(other, Circle):  # if not a circle
+            return None
+        return self.center.distance(other.center) - (self.radius + other.radius)
+
+    def get_intersection_points(self, other):  # Unimplemented
+
+        return None

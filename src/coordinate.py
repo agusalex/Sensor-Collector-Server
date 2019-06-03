@@ -19,19 +19,18 @@ class Coordinate:
         self.lat += lat
         self.lon += lon
 
+    def distance(self, coorb):
+        r = 6373.0  # Earth's radius
 
-def distance(coora, coorb):
-    r = 6373.0  # Earth's radius
+        lat1 = radians(self.lat)
+        lon1 = radians(self.lon)
+        lat2 = radians(coorb.lat)
+        lon2 = radians(coorb.lon)
 
-    lat1 = radians(coora.lat)
-    lon1 = radians(coora.lon)
-    lat2 = radians(coorb.lat)
-    lon2 = radians(coorb.lon)
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
 
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
+        a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-    return r * c
+        return r * c

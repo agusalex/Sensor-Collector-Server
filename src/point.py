@@ -19,6 +19,5 @@ class Point:
         self.x += x
         self.y += y
 
-
-def distance(a, b):
-    return hypot(a.x - b.x, a.y - b.y)
+    def distance(self, b):
+        return hypot(self.x - b.x, self.y - b.y)

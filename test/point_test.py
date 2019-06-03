@@ -6,7 +6,7 @@ from src.point import *
 class TestStringMethods(unittest.TestCase):
 
     def test_distance(self):
-        d = distance(Point(0, 8), Point(3, 4))
+        d = Point(0, 8).distance(Point(3, 4))
         print(d)
         self.assertEqual(d, 5)
 
