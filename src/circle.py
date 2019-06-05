@@ -1,4 +1,5 @@
 from src.point import Point
+from math import sqrt
 
 
 class Circle:
@@ -30,11 +31,11 @@ class Circle:
     def intersects(self, other):
         if not isinstance(other, Circle):  # if not a circle
             return False
-        if self.center.distance(other.center) > (self.r + other.r):
+        if self.center.distance(other.center) > (self.radius + other.radius):
             return False  # They dont intersect
-        elif self.center.distance(other.center) < abs(self.r - other.r):
+        elif self.center.distance(other.center) < abs(self.radius - other.radius):
             return False  # One is inside the other
-        elif (self.center.distance(other.center) == 0) and (self.r == other.r):
+        elif (self.center.distance(other.center) == 0) and (self.radius == other.radius):
             return False  # They are exactly the same circle
         else:  # if distance(a.center,b.center)<=a.r+b.r
             return True
@@ -44,6 +45,25 @@ class Circle:
             return None
         return self.center.distance(other.center) - (self.radius + other.radius)
 
-    def get_intersection_points(self, other):  # Unimplemented
+    def get_intersection_points(self, other):
+        if not self.intersects(other):
+            return None
+        precision = 5  # Decimal point precision
+        distance_between_centers = round(self.center.distance(other.center), precision)
+        distance_between_x = other.center.x - self.center.x
+        distance_between_y = other.center.y - self.center.y
+        distance_center_to_middle = (self.radius**2 - other.radius**2 + distance_between_centers**2) / (2*distance_between_centers)
+        distance_between_intersection_points = sqrt(self.radius**2 - distance_center_to_middle**2)
+        intersection_center_x = self.center.x + (distance_center_to_middle*distance_between_x / distance_between_centers)
+        intersection_center_y = self.center.y + (distance_center_to_middle*distance_between_y / distance_between_centers)
+        # intersection_center = Point(intersection_center_x, intersection_center_y)
 
-        return None
+        intersection_point_a_x = round(intersection_center_x + (distance_between_intersection_points*distance_between_y)/distance_between_centers, precision)
+        intersection_point_a_y = round(intersection_center_y - (distance_between_intersection_points*distance_between_x)/distance_between_centers, precision)
+        intersection_point_a = Point(intersection_point_a_x,intersection_point_a_y)
+
+        intersection_point_b_x = round(intersection_center_x - (distance_between_intersection_points * distance_between_y) / distance_between_centers, precision)
+        intersection_point_b_y = round(intersection_center_y + (distance_between_intersection_points * distance_between_x) / distance_between_centers, precision)
+        intersection_point_b = Point(intersection_point_b_x, intersection_point_b_y)
+
+        return [intersection_point_a, intersection_point_b]
