@@ -3,8 +3,8 @@ from math import sqrt
 
 
 class Circle:
-    def __init__(self, x, y, r_init):
-        self.center = Point(x, y)
+    def __init__(self, x_init, y_init, r_init):
+        self.center = Point(x_init, y_init)
         self.radius = r_init
 
     def __repr__(self):
@@ -17,16 +17,13 @@ class Circle:
         return False
 
     def shift(self, x, y):
-        self.center.x += x
-        self.center.y += y
+        self.center.shift(x, y)
 
     def shift_radius(self, r):
         self.radius += r
 
     def has_inside(self, point: Point):
-        if self.center.distance(point) <= self.radius:
-            return True
-        return False
+        return self.center.distance(point) <= self.radius
 
     def intersects(self, other):
         if not isinstance(other, Circle):  # if not a circle
@@ -45,22 +42,21 @@ class Circle:
             return None
         return self.center.distance(other.center) - (self.radius + other.radius)
 
-    def get_intersection_points(self, other):
+    def get_intersection_points(self, other, precision : int):
         if not self.intersects(other):
             return None
-        precision = 5  # Decimal point precision
+
         distance_between_centers = round(self.center.distance(other.center), precision)
         distance_between_x = other.center.x - self.center.x
         distance_between_y = other.center.y - self.center.y
-        distance_center_to_middle = (self.radius**2 - other.radius**2 + distance_between_centers**2) / (2*distance_between_centers)
-        distance_between_intersection_points = sqrt(self.radius**2 - distance_center_to_middle**2)
-        intersection_center_x = self.center.x + (distance_center_to_middle*distance_between_x / distance_between_centers)
-        intersection_center_y = self.center.y + (distance_center_to_middle*distance_between_y / distance_between_centers)
-        # intersection_center = Point(intersection_center_x, intersection_center_y)
+        distance_center_to_middle = (self.radius ** 2 - other.radius ** 2 + distance_between_centers ** 2) / (2 * distance_between_centers)
+        distance_between_intersection_points = sqrt(self.radius ** 2 - distance_center_to_middle ** 2)
+        intersection_center_x = self.center.x + (distance_center_to_middle * distance_between_x / distance_between_centers)
+        intersection_center_y = self.center.y + (distance_center_to_middle * distance_between_y / distance_between_centers)
 
-        intersection_point_a_x = round(intersection_center_x + (distance_between_intersection_points*distance_between_y)/distance_between_centers, precision)
-        intersection_point_a_y = round(intersection_center_y - (distance_between_intersection_points*distance_between_x)/distance_between_centers, precision)
-        intersection_point_a = Point(intersection_point_a_x,intersection_point_a_y)
+        intersection_point_a_x = round(intersection_center_x + (distance_between_intersection_points * distance_between_y) / distance_between_centers, precision)
+        intersection_point_a_y = round(intersection_center_y - (distance_between_intersection_points * distance_between_x) / distance_between_centers, precision)
+        intersection_point_a = Point(intersection_point_a_x, intersection_point_a_y)
 
         intersection_point_b_x = round(intersection_center_x - (distance_between_intersection_points * distance_between_y) / distance_between_centers, precision)
         intersection_point_b_y = round(intersection_center_y + (distance_between_intersection_points * distance_between_x) / distance_between_centers, precision)

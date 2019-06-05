@@ -29,7 +29,7 @@ class TestStringMethods(unittest.TestCase):
         c1 = Circle(0, 0, 5)
         c2 = Circle(3, 0, 5)
         expected = [Point(1.5, -4.76970), Point(1.5, 4.76970)]
-        self.assertEqual(c1.get_intersection_points(c2), expected)
+        self.assertEqual(c1.get_intersection_points(c2, 5), expected)
 
 
 if __name__ == '__main__':
