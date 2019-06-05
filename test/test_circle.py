@@ -28,7 +28,9 @@ class TestStringMethods(unittest.TestCase):
     def test_get_intersection_points(self):
         c1 = Circle(0, 0, 5)
         c2 = Circle(3, 0, 5)
-        expected = [Point(1.5, -4.76970), Point(1.5, 4.76970)]
+        expected = {Point(1.5, -4.76970), Point(1.5, 4.76970)}
+        self.assertEqual(c1.get_intersection_points(c2, 5), expected)
+        expected = {Point(1.5, 4.76970), Point(1.5, -4.76970)}# reverse test
         self.assertEqual(c1.get_intersection_points(c2, 5), expected)
 
 

@@ -15,6 +15,9 @@ class Point:
             return (self.x == other.x) & (self.y == other.y)
         return False
 
+    def __hash__(self):
+        return hash(str(self))
+
     def shift(self, x, y):
         self.x += x
         self.y += y

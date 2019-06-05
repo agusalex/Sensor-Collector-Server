@@ -44,7 +44,7 @@ class Circle:
 
     def get_intersection_points(self, other, precision : int):
         if not self.intersects(other):
-            return None
+            return {}
 
         distance_between_centers = round(self.center.distance(other.center), precision)
         distance_between_x = other.center.x - self.center.x
@@ -62,4 +62,4 @@ class Circle:
         intersection_point_b_y = round(intersection_center_y + (distance_between_intersection_points * distance_between_x) / distance_between_centers, precision)
         intersection_point_b = Point(intersection_point_b_x, intersection_point_b_y)
 
-        return [intersection_point_a, intersection_point_b]
+        return {intersection_point_a, intersection_point_b}
