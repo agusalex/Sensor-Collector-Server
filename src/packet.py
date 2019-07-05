@@ -2,10 +2,11 @@ from enum import Enum
 
 
 class Packet:
-    def __init__(self, timestamp_init, decibels_init, mac_address_init):
+    def __init__(self, timestamp_init, decibels_init, mac_address_init, channel_init):
         self.timestamp = timestamp_init
         self.decibels = decibels_init
         self.mac_address = mac_address_init
+        self.channel = channel_init
 
         class Type(Enum):
             probe_request = 'probe_request'
