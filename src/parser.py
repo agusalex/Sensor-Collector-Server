@@ -37,5 +37,3 @@ print('ENCODED:', data_string)
 decoded = json.loads(data_string, object_hook=object_decoder)
 print('DECODED:', decoded)
 
-
-
