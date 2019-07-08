@@ -108,8 +108,8 @@ def testDraw():
     drawlist = []
     pos = 2.999 * np.random.rand(10, 2)
     for x, y in pos:
-        circlea = Circle(x, y, 0.5)
-        circleb = Circle(x + 0.25, y + 0.25, 0.5)
+        circlea = Circle(Point(x, y), 0.5)
+        circleb = Circle(Point(x + 0.25, y + 0.25), 0.5)
         drawlist.append(circlea)
         drawlist.append(circleb)
     for intersection in find_intersections(drawlist):

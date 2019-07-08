@@ -1,10 +1,21 @@
-from src.circle import Point, Circle
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy.orm import relationship
+from src.db_utils.base import Base
 
 
-class Sniffer:
-    def __init__(self, x_init, y_init, r_init, mac_address_init):
-        self.location = Point(x_init, y_init)
-        self.coverage = Circle(self.location.x, self.location.y, r_init)
+class Sniffer(Base):
+    __tablename__ = 'sniffer'
+
+    id = Column(Integer, primary_key=True)
+    location_id = Column(Integer, ForeignKey("point.id"))
+    coverage_id = Column(Integer, ForeignKey("circle.id"))
+    location = relationship("Point", foreign_keys=[location_id])
+    coverage = relationship("Circle", foreign_keys=[coverage_id])
+    mac_addr = Column(String)
+
+    def __init__(self, point_init, circle_init, mac_address_init):
+        self.location = point_init
+        self.coverage = circle_init
         self.mac_address = mac_address_init
 
     def __repr__(self):

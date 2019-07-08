@@ -1,25 +1,25 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, String, Integer
 from src.db_utils.base import Base
+from sqlalchemy.orm import relationship
 
 
-class TestObject(Base):
-    __tablename__ = 'testobjects'
+class Ssid(Base):
+    __tablename__ = 'ssid'
 
     id = Column(Integer, primary_key=True)
-    mac_addr = Column(String)
-    decib = Column(Integer)
 
-    def __init__(self, mac_addr, decib):
-        self.mac_addr = mac_addr
-        self.decib = decib
+    name = Column(String)
+
+    def __init__(self, name_init):
+        self.name = name_init
 
     def __repr__(self):
-        return "".join(["TestObject(", str(self.mac_addr), ", ", str(self.db), ") "])
+        return "".join(["SSID(", str(self.name),  ")"])
 
     def __eq__(self, other):
         """Overrides the default implementation"""
-        if isinstance(other, TestObject):
-            return self.mac_addr == other.mac_addr
+        if isinstance(other, Ssid):
+            return self.name == other.name
             # Si consideramos que dos pueden tener la misma mac
             # return (self.geometry.center.x == other.geometry.center.x) & (self.geometry.center.y == other.geometry.center.y) & (self.geometry.radius == other.geometry.radius) & (self.mac_address == other.mac_address)
         return False

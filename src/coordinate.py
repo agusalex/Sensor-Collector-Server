@@ -1,7 +1,15 @@
 from math import sin, cos, sqrt, atan2, radians
+from sqlalchemy import Column, Float, Integer
+from src.db_utils.base import Base
 
 
-class Coordinate:
+class Coordinate(Base):
+    __tablename__ = 'coordinate'
+
+    id = Column(Integer, primary_key=True)
+    lat = Column(Float)
+    lon = Column(Float)
+
     def __init__(self, lat_init, lon_init):
         self.lat = lat_init
         self.lon = lon_init

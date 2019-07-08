@@ -12,3 +12,9 @@ def persist(input):
 
     session.commit()
     session.close()
+
+
+def retrieve(input):
+    session = Session()
+
+    return session.query(input).all()
