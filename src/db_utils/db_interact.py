@@ -1,23 +1,30 @@
 from src.db_utils.base import Base, engine, Session
 
+session = None
+
 
 def persist(input):
-    # 2 - generate database schema
-    Base.metadata.create_all(engine)
-
-    # 3 - create a new session
-    session = Session()
-
+    generate_schema()
+    session.add(input.type)
     session.add(input)
 
     session.commit()
+
+
+def open_session():
+    global session
+    session = Session()
+
+
+def close_session():
     session.close()
 
 
+def generate_schema():
+    Base.metadata.create_all(engine)
+
 
 def retrieve_all(input):
-    session = Session()
-
     return session.query(input).all()
 
 
