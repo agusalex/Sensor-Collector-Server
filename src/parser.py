@@ -1,39 +1,71 @@
-from src.testObject import TestObject
 import json
+import csv
+import datetime;
+from src.packet import Packet
+from src.ssid import Ssid
+from src.db_utils import db_interact
+jsondir = '../data/received.json'
+csvdir = '../data/mac-vendors.csv'
 
 
-def object_decoder(obj):
-    if '__type__' in obj and obj['__type__'] == 'TestObject':
-        return TestObject(obj['mac'], obj['db'])
-    print(obj)
-    return obj
+def get_vendor(input_mac):
+    reader = csv.reader(open(csvdir), delimiter=',', quotechar='|')
+    device_oui = get_oui(input_mac)
+    for row in reader:
+        if device_oui == row[0]:
+            return row[1]
 
-data = {
-    "Devices": [
-        {
-            "Device": [
-                {
-                    "mac": "8C-A5-E3-D2-C9-85",
-                    "db": -14,
-                    "channel": 10
-                },
-                {
-                    "mac": "19-DC-9C-09-26-E8",
-                    "db": -40,
-                    "channel": 6
-                },
-                {
-                    "mac": "AE-67-05-FD-12-8E",
-                    "db": -56,
-                    "channel": 2
-                }
-            ]
-        }
-    ]
-}
-data_string = json.dumps(data)
-print('ENCODED:', data_string)
 
-decoded = json.loads(data_string, object_hook=object_decoder)
-print('DECODED:', decoded)
+def get_oui(input_mac):
+    input_mac = input_mac[:8]
+    input_mac = input_mac.replace(':', '')
+    return input_mac.upper()
 
+
+def save_packets(mac_list, decib_list, channel_list):
+    timestamp = datetime.datetime.now()
+    ssid = Ssid('IDEI')
+    type = 'probe_request'
+
+    for mac in mac_list:
+        for decib in decib_list:
+            for ch in channel_list:
+                db_interact.persist(Packet(timestamp, decib, mac, ch, [ssid], type))
+                print(timestamp, decib, mac, ch, [ssid], type)
+    db_interact.persist(ssid)
+
+
+with open(jsondir, 'r') as fp:
+    obj = json.load(fp)
+
+macs = obj["MAC"]
+decibs = obj["RSSI"]
+channels = obj["CH"]
+
+print(macs, decibs, channels)
+
+for mac in macs:
+    get_vendor(mac)
+
+save_packets(macs, decibs, channels)
+
+
+
+
+
+
+# def __init__(self, timestamp_init, decibels_init, mac_address_init, channel_init, ssid_init):
+#     self.timestamp = timestamp_init
+#     self.decibels = decibels_init
+#     self.mac_address = mac_address_init
+#     self.channel = channel_init
+#
+#     class Type(Enum):
+#         probe_request = 'probe_request'
+#         beacon = 'beacon'
+#
+#     self.type = Type
+#     self.ssid = ssid_init
+
+# def __init__(self, name_init):
+#     self.name = name_init

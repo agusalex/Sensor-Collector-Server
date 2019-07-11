@@ -23,3 +23,6 @@ class Ssid(Base):
             # Si consideramos que dos pueden tener la misma mac
             # return (self.geometry.center.x == other.geometry.center.x) & (self.geometry.center.y == other.geometry.center.y) & (self.geometry.radius == other.geometry.radius) & (self.mac_address == other.mac_address)
         return False
+
+    def __hash__(self):
+        return hash(str(self.name))

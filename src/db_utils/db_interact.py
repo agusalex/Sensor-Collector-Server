@@ -14,7 +14,10 @@ def persist(input):
     session.close()
 
 
-def retrieve(input):
+
+def retrieve_all(input):
     session = Session()
 
     return session.query(input).all()
+
+

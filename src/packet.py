@@ -3,8 +3,8 @@ from src.db_utils.base import Base
 from sqlalchemy.orm import relationship
 
 packet_ssids_association = Table('packets_ssids', Base.metadata,
-                                 Column('packet_id', Integer, ForeignKey('packets.id')),
-                                 Column('ssid_id', Integer, ForeignKey('ssids.id'))
+                                 Column('packet_id', Integer, ForeignKey('packet.id')),
+                                 Column('ssid_id', Integer, ForeignKey('ssid.id'))
                                  )
 
 class Packet(Base):
@@ -15,24 +15,19 @@ class Packet(Base):
     decibels = Column(Integer)
     mac_address = Column(String)
     channel = Column(Integer)
-    type = Column(Enum)
-    ssid = relationship("Ssid", secondary=packet_ssids_association)
+    type = Column(String)
+    ssids = relationship("Ssid", secondary=packet_ssids_association)
 
-    def __init__(self, timestamp_init, decibels_init, mac_address_init, channel_init, ssid_init):
+    def __init__(self, timestamp_init, decibels_init, mac_address_init, channel_init, ssid_init, type_init):
         self.timestamp = timestamp_init
         self.decibels = decibels_init
         self.mac_address = mac_address_init
         self.channel = channel_init
-
-        class Type(Enum):
-            probe_request = 'probe_request'
-            beacon = 'beacon'
-
-        self.type = Type
-        self.ssid = ssid_init
+        self.type = type_init
+        self.ssids = ssid_init
 
     def __repr__(self):
-        return "".join(["Packet(", str(self.mac_address), ", ", str(self.timestamp), ", ", str(self.decibels), ",", str(self.type), ",",  str(self.ssid), ")"])
+        return "".join(["Packet(", str(self.mac_address), ", ", str(self.timestamp), ", ", str(self.decibels), ",", str(self.type), ",",  str(self.ssids), ")"])
 
     def __eq__(self, other):
         """Overrides the default implementation"""
