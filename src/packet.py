@@ -24,7 +24,7 @@ class Packet(Base):
         self.destination = destination_init
 
     def __repr__(self):
-        return "".join(["Packet(", str(self.mac_address), ", ", str(self.timestamp), ", ", str(self.decibels), ",", str(self.type), ",",  str(self.ssids), ")"])
+        return "".join(["Packet(", str(self.mac_address), ", ", str(self.timestamp), ", ", str(self.decibels), ",", str(self.type), ",",  str(self.destination), ")"])
 
     def __eq__(self, other):
         """Overrides the default implementation"""
