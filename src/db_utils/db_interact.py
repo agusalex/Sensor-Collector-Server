@@ -3,11 +3,9 @@ from src.db_utils.base import Base, engine, Session
 session = None
 
 
-def persist(input):
+def persist(input_object):
     generate_schema()
-    session.add(input.type)
-    session.add(input)
-
+    session.add(input_object)
     session.commit()
 
 
@@ -24,7 +22,7 @@ def generate_schema():
     Base.metadata.create_all(engine)
 
 
-def retrieve_all(input):
-    return session.query(input).all()
+def retrieve_all(input_object):
+    return session.query(input_object).all()
 
 

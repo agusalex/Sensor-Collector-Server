@@ -7,8 +7,6 @@ class Type(Base):
     __tablename__ = 'type'
 
     id = Column(Integer, primary_key=True)
-    # packet_id = Column(Integer, ForeignKey('packet.id'))
-    # packet = relationship('Packet', back_populates='type')
     type = Column(CHAR)
 
     def __init__(self, type_init):
@@ -21,8 +19,6 @@ class Type(Base):
         """Overrides the default implementation"""
         if isinstance(other, Type):
             return self.type == other.type
-            # Si consideramos que dos pueden tener la misma mac
-            # return (self.geometry.center.x == other.geometry.center.x) & (self.geometry.center.y == other.geometry.center.y) & (self.geometry.radius == other.geometry.radius) & (self.mac_address == other.mac_address)
         return False
 
     def get_type(self):
