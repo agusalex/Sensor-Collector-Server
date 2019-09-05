@@ -1,6 +1,6 @@
 import unittest
 
-from src.coordinate import *
+from src.models.coordinate import *
 
 
 class TestStringMethods(unittest.TestCase):

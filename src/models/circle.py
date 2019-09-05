@@ -1,4 +1,4 @@
-from src.point import Point
+from src.models.point import Point
 from math import sqrt
 from sqlalchemy import Column, Float, Integer, ForeignKey
 from sqlalchemy.orm import relationship

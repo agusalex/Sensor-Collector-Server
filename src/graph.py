@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # use ggplot style for more sophisticated visuals
-from src.circle import Circle
-from src.point import Point
+from src.models.circle import Circle
+from src.models.point import Point
 
 
 def live_plotter(x_vec, y1_data, line1, identifier='', pause_time=0.1):

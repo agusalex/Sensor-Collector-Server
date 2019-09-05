@@ -1,6 +1,6 @@
 import unittest
 
-from src.point import *
+from src.models.point import *
 
 
 class TestStringMethods(unittest.TestCase):

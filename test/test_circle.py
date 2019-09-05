@@ -1,6 +1,6 @@
 import unittest
 
-from src.circle import *
+from src.models.circle import *
 
 
 class TestStringMethods(unittest.TestCase):

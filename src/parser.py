@@ -1,8 +1,8 @@
 import json
 import csv
 import datetime
-from src.packet import Packet
-from src.type import Type
+from src.models.packet import Packet
+from src.models.type import Type
 from src.db_utils import db_interact
 from datetime import datetime
 
