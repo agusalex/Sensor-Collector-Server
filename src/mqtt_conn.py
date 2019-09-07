@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from src.parser import parse_and_save
+from src.json_persistor import parse_and_save
 
 
 # The callback for when the client receives a CONNACK response from the server.
