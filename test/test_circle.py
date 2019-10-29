@@ -30,10 +30,14 @@ class TestStringMethods(unittest.TestCase):
         c2 = Circle(Point(3, 0), 5)
         expected = {Point(1.5, -4.76970), Point(1.5, 4.76970)}
         self.assertEqual(c1.get_intersection_points(c2, 5), expected)
-        expected = {Point(1.5, 4.76970), Point(1.5, -4.76970)}# reverse test
+        expected = {Point(1.5, 4.76970), Point(1.5, -4.76970)}  # reverse test
         self.assertEqual(c1.get_intersection_points(c2, 5), expected)
 
-
+    def trilateration(self):
+        c1 = Circle(Point(0, 0), 2)
+        c2 = Circle(Point(2, 0), 2)
+        c3 = Circle(Point(1, 2), 2)
+        self.assertEqual(c1.get_trilateration(c2, c3), Point(1.0, 0.6666666666666666))
 
 
 if __name__ == '__main__':

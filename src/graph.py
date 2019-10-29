@@ -117,8 +117,19 @@ def testDraw():
     draw(drawlist)
 
 
+def testDraw2():
+    c1 = Circle(Point(0, 0), 2)
+    c2 = Circle(Point(2, 0), 2)
+    c3 = Circle(Point(1, 2), 2)
+    p1 = c1.get_trilateration(c2, c3)
+    c4 = Circle(p1, 0.1)
+    drawlist = [c1, c2, c3, c4]
+
+    draw(drawlist)
+
+
 # plt.imsave('demo')
 
 
 if __name__ == '__main__':
-    testDraw()
+    testDraw2()

@@ -97,7 +97,7 @@ class Circle(Base):
 
         # Formula to calculate centroid
         # Despues fijarse si queremos redondear
-        # x = round((x1 + x2 + x3) / 3, 2)
+        # x = round((x1 + xo2 + x3) / 3, 2)
         # y = round((y1 + y2 + y3) / 3, 2)
 
         return Point((x1 + x2 + x3) / 3, (y1 + y2 + y3) / 3)
