@@ -32,3 +32,12 @@ class Point(Base):
 
     def distance(self, b):
         return hypot(self.x - b.x, self.y - b.y)
+
+    def closest_point(self, array):
+        minimum_distance = float('inf')
+        minimum_point = None
+        for point in array:
+            if point.distance(self) < minimum_distance:
+                minimum_distance = point.distance(self)
+                minimum_point = self
+        return minimum_point

@@ -83,3 +83,29 @@ class Circle(Base):
 
         return {intersection_point_a, intersection_point_b}
 
+    def get_trilateration(self, a, b):
+        #TODO:despues sacarlo y que nosea un metodo de clase
+        self_a_intersec = self.get_intersection_points(a)
+        self_b_intersec = self.get_intersection_points(b)
+        a_b_intersec = a.get_intersection_points(b)
+
+        triangle_points = [b.center.closest_point(self_a_intersec), a.center.closest_point(self_b_intersec), self.center.closest_point(a_b_intersec)]
+
+        # coordinate of the vertices
+        x1, x2, x3 = triangle_points[0].x, triangle_points[1].x, triangle_points[2].x
+        y1, y2, y3 = triangle_points[0].y, triangle_points[1].y, triangle_points[2].y
+
+        # Formula to calculate centroid
+        # Despues fijarse si queremos redondear
+        # x = round((x1 + x2 + x3) / 3, 2)
+        # y = round((y1 + y2 + y3) / 3, 2)
+
+        return Point((x1 + x2 + x3) / 3, (y1 + y2 + y3) / 3)
+
+    #def get_trilateration_2_electric_boogaloo(self, a, b):
+        #TODO:despues sacarlo y que nosea un metodo de clase
+        #self_a_center_distance = self.center.distance(a.center)
+        #self_b_center_distance = self.center.distance(b.center)
+        #a_b_center_distance = a.center.distance(b.center)
+
+

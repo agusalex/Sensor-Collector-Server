@@ -34,5 +34,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(c1.get_intersection_points(c2, 5), expected)
 
 
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -74,7 +74,7 @@ def timestamp_avg(packet1, packet2, packet3):
 
 def get_packets():
     sniffers_list = None  # look for the sniffers in the DB
-    for (sniffer in sniffers_list):
+    for sniffer in sniffers_list:
         packets_list.append(sniffer.get_associated_packets)
 
 
