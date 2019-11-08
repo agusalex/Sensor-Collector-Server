@@ -33,11 +33,34 @@ class TestStringMethods(unittest.TestCase):
         expected = {Point(1.5, 4.76970), Point(1.5, -4.76970)}  # reverse test
         self.assertEqual(c1.get_intersection_points(c2, 5), expected)
 
-    def trilateration(self):
+    def test_proportion(self):
+        c1 = Circle(Point(0, 0), 1)
+        c2 = Circle(Point(2, 0), 3)
+        print(c1.get_proportion(c2))
+
+    def test_trilateration(self):
         c1 = Circle(Point(0, 0), 2)
         c2 = Circle(Point(2, 0), 2)
         c3 = Circle(Point(1, 2), 2)
         self.assertEqual(c1.get_trilateration(c2, c3), Point(1.0, 0.6666666666666666))
+
+    def test_trilateration2(self):
+        #Triple Intersection example
+        c1 = Circle(Point(0, 0), 2)
+        c2 = Circle(Point(2, 0), 2)
+        c3 = Circle(Point(1, 2), 2)
+        self.assertEqual(c1.get_trilateration2(c2, c3), Point(1.0, 0.6666666666666666))
+        #No intersection
+        c1 = Circle(Point(0, 0), 0.5)
+        c2 = Circle(Point(2, 0), 0.5)
+        c3 = Circle(Point(1, 2), 0.5)
+        self.assertEqual(c1.get_trilateration2(c2, c3), Point(1.0, 0.6666666666666666))
+        #Test Weighted
+        c1 = Circle(Point(0, 0), 0.5)
+        c2 = Circle(Point(2, 0), 0.5)
+        c3 = Circle(Point(1, 2), 0.5)
+        self.assertEqual(c1.get_trilateration2(c2, c3), Point(1.0, 0.6666666666666666))
+
 
 
 if __name__ == '__main__':

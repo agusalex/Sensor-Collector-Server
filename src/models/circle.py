@@ -13,7 +13,7 @@ class Circle(Base):
     center = relationship("Point", foreign_keys=[center_id])
     radius = Column(Float)
 
-    def __init__(self, point_init, r_init):
+    def __init__(self, point_init: Point, r_init: float):
         self.center = point_init
         self.radius = r_init
 
@@ -62,20 +62,27 @@ class Circle(Base):
 
         distance_between_x = other.center.x - self.center.x
         distance_between_y = other.center.y - self.center.y
-        distance_center_to_middle = (self.radius ** 2 - other.radius ** 2 + distance_between_centers ** 2) / (2 * distance_between_centers)
+        distance_center_to_middle = (self.radius ** 2 - other.radius ** 2 + distance_between_centers ** 2) / (
+                2 * distance_between_centers)
         distance_between_intersection_points = sqrt(self.radius ** 2 - distance_center_to_middle ** 2)
-        intersection_center_x = self.center.x + (distance_center_to_middle * distance_between_x / distance_between_centers)
-        intersection_center_y = self.center.y + (distance_center_to_middle * distance_between_y / distance_between_centers)
+        intersection_center_x = self.center.x + (
+                distance_center_to_middle * distance_between_x / distance_between_centers)
+        intersection_center_y = self.center.y + (
+                distance_center_to_middle * distance_between_y / distance_between_centers)
 
-        intersection_point_a_x = intersection_center_x + (distance_between_intersection_points * distance_between_y) / distance_between_centers
-        intersection_point_a_y = intersection_center_y - (distance_between_intersection_points * distance_between_x) / distance_between_centers
+        intersection_point_a_x = intersection_center_x + (
+                distance_between_intersection_points * distance_between_y) / distance_between_centers
+        intersection_point_a_y = intersection_center_y - (
+                distance_between_intersection_points * distance_between_x) / distance_between_centers
         if precision is not None:
             intersection_point_a_x = round(intersection_point_a_x, precision)
             intersection_point_a_y = round(intersection_point_a_y, precision)
         intersection_point_a = Point(intersection_point_a_x, intersection_point_a_y)
 
-        intersection_point_b_x = intersection_center_x - (distance_between_intersection_points * distance_between_y) / distance_between_centers
-        intersection_point_b_y = intersection_center_y + (distance_between_intersection_points * distance_between_x) / distance_between_centers
+        intersection_point_b_x = intersection_center_x - (
+                distance_between_intersection_points * distance_between_y) / distance_between_centers
+        intersection_point_b_y = intersection_center_y + (
+                distance_between_intersection_points * distance_between_x) / distance_between_centers
         if precision is not None:
             intersection_point_b_x = round(intersection_point_b_x, precision)
             intersection_point_b_y = round(intersection_point_b_y, precision)
@@ -84,12 +91,13 @@ class Circle(Base):
         return {intersection_point_a, intersection_point_b}
 
     def get_trilateration(self, a, b):
-        #TODO:despues sacarlo y que nosea un metodo de clase
+        # TODO:despues sacarlo y que nosea un metodo de clase
         self_a_intersec = self.get_intersection_points(a)
         self_b_intersec = self.get_intersection_points(b)
         a_b_intersec = a.get_intersection_points(b)
 
-        triangle_points = [b.center.closest_point(self_a_intersec), a.center.closest_point(self_b_intersec), self.center.closest_point(a_b_intersec)]
+        triangle_points = [b.center.closest_point(self_a_intersec), a.center.closest_point(self_b_intersec),
+                           self.center.closest_point(a_b_intersec)]
 
         # coordinate of the vertices
         x1, x2, x3 = triangle_points[0].x, triangle_points[1].x, triangle_points[2].x
@@ -102,10 +110,25 @@ class Circle(Base):
 
         return Point((x1 + x2 + x3) / 3, (y1 + y2 + y3) / 3)
 
-    #def get_trilateration_2_electric_boogaloo(self, a, b):
-        #TODO:despues sacarlo y que nosea un metodo de clase
-        #self_a_center_distance = self.center.distance(a.center)
-        #self_b_center_distance = self.center.distance(b.center)
-        #a_b_center_distance = a.center.distance(b.center)
+    def get_trilateration2(self, a, b):
 
+        self_a_midpoint = self.center.find_weighted_midpoint(a.center, self.radius, a.radius)
+        self_b_midpoint = self.center.find_weighted_midpoint(b.center, self.radius, b.radius)
+        a_b_midpoint = a.center.find_weighted_midpoint(b.center, a.radius, b.radius)
 
+        x1 = self_a_midpoint.x
+        y1 = self_a_midpoint.y
+
+        x2 = self_b_midpoint.x
+        y2 = self_b_midpoint.y
+
+        x3 = a_b_midpoint.x
+        y3 = a_b_midpoint.y
+        return [Point(x1, y1), Point(x2, y2), Point(x3, y3)]
+        # return Point((x1 + x2 + x3) / 3, (y1 + y2 + y3) / 3)
+
+    # def get_trilateration_2_electric_boogaloo(self, a, b):
+    # TODO:despues sacarlo y que nosea un metodo de clase
+    # self_a_center_distance = self.center.distance(a.center)
+    # self_b_center_distance = self.center.distance(b.center)
+    # a_b_center_distance = a.center.distance(b.center)

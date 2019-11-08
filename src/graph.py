@@ -68,14 +68,13 @@ def demolive():
 
 def create_circle(circle: Circle):
     color = matplotlib.cm.jet(circle.center.x / 3)  # get the right map, and get the color from the map
-    circle = plt.Circle((circle.center.x, circle.center.y), color=color, radius=circle.radius, alpha=0.8)
+    circle = plt.Circle((circle.center.x, circle.center.y), color=color, zorder=1, radius=circle.radius, alpha=0.8)
     add_shape(circle)
-    return circle
 
 
 def create_point(point: Point):
-    color = matplotlib.cm.jet(point.x / 3)  # get the right map, and get the color from the map
-    point = plt.scatter(point.x, point.y, color=color, s=100)
+    color = matplotlib.cm.jet(10)  # get the right map, and get the color from the map
+    plt.scatter(point.x, point.y, color=color, s=100, zorder=2)
 
 
 def add_shape(patch):
@@ -118,13 +117,13 @@ def testDraw():
 
 
 def testDraw2():
-    c1 = Circle(Point(0, 0), 2)
-    c2 = Circle(Point(2, 0), 2)
-    c3 = Circle(Point(1, 2), 2)
-    p1 = c1.get_trilateration(c2, c3)
-    c4 = Circle(p1, 0.1)
-    drawlist = [c1, c2, c3, c4]
+    c1 = Circle(Point(0, 0), 0.8)
+    c2 = Circle(Point(2, 0), 0.6)
+    c3 = Circle(Point(1, 2), 0.8)
 
+    drawlist = [c1, c2, c3]
+    for p in c1.get_trilateration2(c2, c3):
+        drawlist.append(p)
     draw(drawlist)
 
 
