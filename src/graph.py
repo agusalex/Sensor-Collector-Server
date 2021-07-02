@@ -1,10 +1,12 @@
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-
+from random import seed
+from random import randint
 # use ggplot style for more sophisticated visuals
 from src.models.circle import Circle
 from src.models.point import Point
+from src.least_squares import *
 
 
 def live_plotter(x_vec, y1_data, line1, identifier='', pause_time=0.1):
@@ -66,14 +68,16 @@ def demolive():
         y_vec = np.append(y_vec[1:], 0.0)
 
 
-def create_circle(circle: Circle):
-    color = matplotlib.cm.jet(circle.center.x / 3)  # get the right map, and get the color from the map
-    circle = plt.Circle((circle.center.x, circle.center.y), color=color, zorder=1, radius=circle.radius, alpha=0.8)
-    add_shape(circle)
+def create_circle(circle: Circle, target=False):
+    color = matplotlib.cm.jet(randint(50, 100))
+    if target:
+        color = matplotlib.cm.jet(1000)
+    add_shape(plt.Circle((circle.center.x, circle.center.y), color=color, fill=False, zorder=1, radius=circle.radius,
+                         alpha=0.8))
+    plt.scatter(circle.center.x, circle.center.y, color=color, s=100, zorder=2)
 
 
-def create_point(point: Point):
-    color = matplotlib.cm.jet(10)  # get the right map, and get the color from the map
+def create_point(point: Point, color=matplotlib.cm.jet(randint(0, 00))):
     plt.scatter(point.x, point.y, color=color, s=100, zorder=2)
 
 
@@ -116,19 +120,23 @@ def testDraw():
     draw(drawlist)
 
 
+def rssiToDistance(rssi):
+    return 10 ** (-1 * (rssi + 17) / 38)
+
+
 def testDraw2():
-    c1 = Circle(Point(0, 0), 0.8)
-    c2 = Circle(Point(2, 0), 0.6)
-    c3 = Circle(Point(1, 2), 0.8)
+    # 1
+    c1 = Circle(Point(150, 100), rssiToDistance(-72.5948))
+    # 3
+    c2 = Circle(Point(100, 50), rssiToDistance(-73.2301))
+    # 6
+    c3 = Circle(Point(76.5, 100), rssiToDistance(-73.3082))
 
     drawlist = [c1, c2, c3]
-    for p in c1.get_trilateration2(c2, c3):
-        drawlist.append(p)
+    create_circle(leastSquares(drawlist), target=True)
     draw(drawlist)
-
-
-# plt.imsave('demo')
 
 
 if __name__ == '__main__':
     testDraw2()
+    # testDraw()

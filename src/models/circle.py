@@ -14,6 +14,7 @@ class Circle(Base):
     radius = Column(Float)
 
     def __init__(self, point_init: Point, r_init: float):
+        self.x = None
         self.center = point_init
         self.radius = r_init
 
